@@ -11,7 +11,12 @@
 
 start(_StartType, _StartArgs) ->
   Dispatch = cowboy_router:compile([
-        {'_', [{"/", index_handler, []}]}
+        {'_', [
+          {"/", index_handler, []},
+          {"/favicon.ico",
+           cowboy_static,
+           {priv_file, rssfollow, "static/assets/icon.png"}}
+        ]}
     ]),
     {ok, _} = cowboy:start_clear(rssfollow_http_listener,
         [{port, 8080}],
