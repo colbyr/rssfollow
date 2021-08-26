@@ -11,9 +11,10 @@ rss_channel(Content) ->
 
 init(Req0, State) ->
   TwitterUserName = cowboy_req:binding(twitter_user, Req0),
+  {ok, #{<<"name">> := Name} = TwitterUser} = twitter:get_user_by_username(TwitterUserName),
   Body = rss_channel([
-    {title, [["@", TwitterUserName]]},
-    {description, [["@", TwitterUserName, "'s tweets."]]}
+    {title, [[Name, " (@", TwitterUserName, ")"]]},
+    {description, [[jiffy:encode(TwitterUser)]]}
   ]),
   Req = cowboy_req:reply(
     200,
