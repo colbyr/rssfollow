@@ -10,18 +10,17 @@ get_profile_link(UserName) ->
   ["https://twitter.com/", UserName].
 
 get_tweet_embed(UserName, Name, #{
-  <<"id">> := TweetId,
   <<"lang">> := Lang,
   <<"text">> := Text,
   <<"created_at">> := Created
-}) ->
+} = Tweet) ->
   [
     "<blockquote class=\"twitter-tweet\">",
       "<p lang=\"", Lang, "\">",
         Text,
       "</p>",
       "&mdash; ", Name, " (@", UserName, ")",
-      "<a href=\"", get_tweet_link(UserName, TweetId), "\">",
+      "<a href=\"", get_tweet_link(UserName, Tweet), "\">",
         Created,
       "</a>",
     "</blockquote>",
@@ -33,4 +32,4 @@ get_tweet_link(UserName, #{<<"id">> := TweetId}) ->
 
 format_tweet_title(#{<<"text">> := Text}) ->
   NormalWhitespace = string:chomp(Text),
-  string:slice(NormalWhitespace, 0, 100).
+  [string:slice(NormalWhitespace, 0, 100)].

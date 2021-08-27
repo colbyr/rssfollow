@@ -30,7 +30,7 @@ get_tweets_by_user_id(UserIdStr) ->
   {ok, #{<<"data">> := Tweets}} = fetch_json([
     "/users/", UserIdStr, "/tweets",
     "?tweet.fields=created_at,lang",
-    "&exclude=replies",
+    "&exclude=replies,retweets",
     "&max_results=10"
   ]),
   {ok, Tweets}.
