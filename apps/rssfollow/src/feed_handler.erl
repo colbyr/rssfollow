@@ -10,20 +10,31 @@ rss_channel(Content) ->
   ).
 
 init(Req0, State) ->
-  TwitterUserName = cowboy_req:binding(twitter_user, Req0),
+  UserName = cowboy_req:binding(twitter_user, Req0),
   {ok,
    #{<<"id">> := UserId,
      <<"description">> := UserDescription,
      <<"name">> := Name}
-  } = twitter:get_user_by_username(TwitterUserName),
+  } = twitter:get_user_by_username(UserName),
   {ok, Tweets} = twitter:get_tweets_by_user_id(UserId),
+
   Body = rss_channel([
-    {title, [[Name, " (@", TwitterUserName, ")"]]},
+    {title, [[Name, " (@", UserName, ")"]]},
     {description, [[UserDescription]]},
     {items, [
-      {title, [[Text]]} || #{<<"text">> := Text} <- Tweets
+      {item, [
+        {title, [[Text]]},
+        {link, [twitter:get_tweet_link(UserName, TweetId)]},
+        {guid, [{isPermaLink, "true"}], [twitter:get_tweet_link(UserName, TweetId)]},
+        {pubDate, [[CreatedAt]]}
+      ]} || #{
+        <<"id">> := TweetId,
+        <<"created_at">> := CreatedAt,
+        <<"text">> := Text
+      } <- Tweets
     ]}
   ]),
+
   Req = cowboy_req:reply(
     200,
     #{<<"content-type">> => <<"text/xml; charset=utf-8">>},
