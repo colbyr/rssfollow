@@ -14,7 +14,8 @@ init(Req0, State) ->
   {ok,
    #{<<"id">> := UserId,
      <<"description">> := UserDescription,
-     <<"name">> := Name}
+     <<"name">> := Name,
+     <<"profile_image_url">> := ProfileImage}
   } = twitter:get_user_by_username(UserName),
   {ok, Tweets} = twitter:get_tweets_by_user_id(UserId),
 
@@ -22,6 +23,11 @@ init(Req0, State) ->
     {title, [[Name, " (@", UserName, ")"]]},
     {description, [[UserDescription]]},
     {generator, [["rssfollow"]]},
+    {link, [[io_twitter:get_profile_link(UserName)]]},
+    {image, [
+      {url, [[ProfileImage]]},
+      {title, [[Name, " (@", UserName, ")"]]}
+    ]},
     {items, [
       {item, [
         {title, [io_twitter:format_tweet_title(Tweet)]},

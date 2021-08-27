@@ -19,7 +19,7 @@ get_user_by_username(TwitterUserName) ->
   {ok, #{<<"data">> := [User]}} = fetch_json([
     "/users/by?",
     "usernames=", TwitterUserName,
-    "&user.fields=description,protected"
+    "&user.fields=description,protected,profile_image_url"
   ]),
   {ok, User}.
 
