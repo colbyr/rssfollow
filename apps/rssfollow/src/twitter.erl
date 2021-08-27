@@ -1,5 +1,8 @@
 -module(twitter).
--export([get_user_by_username/1]).
+-export([
+  get_tweets_by_user_id/1,
+  get_user_by_username/1
+]).
 
 -define(TWITTER_API, "https://api.twitter.com/2").
 
@@ -19,4 +22,13 @@ get_user_by_username(TwitterUserName) ->
     "&user.fields=description,protected"
   ]),
   {ok, User}.
+
+get_tweets_by_user_id(UserId) ->
+  {ok, #{<<"data">> := Tweets}} = fetch_json([
+    "/users/", io_lib:format("~p", [UserId]), "/tweets",
+    "?tweet.fields=created_at",
+    "&max_results=10"
+  ]),
+  {ok, Tweets}.
+
 
