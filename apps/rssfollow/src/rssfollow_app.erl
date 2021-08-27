@@ -16,7 +16,7 @@ start(_StartType, _StartArgs) ->
           {"/favicon.ico",
            cowboy_static,
            {priv_file, rssfollow, "static/assets/icon.png"}},
-          {"/:twitter_user/feed.rss", feed_handler, []}
+          {"/:twitter_user/tweets.rss", feed_handler, []}
         ]}
     ]),
     {ok, _} = cowboy:start_clear(rssfollow_http_listener,
