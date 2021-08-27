@@ -2,12 +2,19 @@
 -export([init/2]).
 
 rss_channel(Content) ->
-  xmerl:export_simple_content(
-    [{rss,
-      [{version, "2.0"}],
-      [{channel, Content}]}],
-    xmerl_xml
-  ).
+  [
+    "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+    xmerl:export_simple_content(
+      [{rss,
+        [{version, "2.0"},
+         {'xmlns:dc', "http://purl.org/dc/elements/1.1/"},
+         {'xmlns:content', "http://purl.org/rss/1.0/modules/content/"},
+         {'xmlns:atom', "http://www.w3.org/2005/Atom"},
+         {'xmlns:media', "http://search.yahoo.com/mrss/"}],
+        [{channel, Content}]}],
+      xmerl_xml
+    )
+  ].
 
 init(Req0, State) ->
   UserName = cowboy_req:binding(twitter_user, Req0),
@@ -33,6 +40,7 @@ init(Req0, State) ->
         {title, [io_twitter:format_tweet_title(Tweet)]},
         {link, [io_twitter:get_tweet_link(UserName, Tweet)]},
         {description, [io_twitter:get_tweet_embed(UserName, Name, Tweet)]},
+        {'dc:creator', [["@", UserName]]},
         {guid, [{isPermaLink, "true"}], [io_twitter:get_tweet_link(UserName, Tweet)]},
         {pubDate, [[CreatedAt]]}
       ]} || #{
