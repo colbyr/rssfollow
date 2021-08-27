@@ -3,11 +3,16 @@
   get_profile_link/1,
   get_tweet_embed/3,
   get_tweet_link/2,
+  format_tweet_date/1,
   format_tweet_title/1
 ]).
 
 get_profile_link(UserName) ->
   ["https://twitter.com/", UserName].
+
+format_tweet_date(#{<<"created_at">> := CreatedAt}) ->
+  Date = ec_date:parse(binary_to_list(CreatedAt)),
+  [ec_date:format("D, d M Y H:i:s \\G\\M\\T", Date)].
 
 get_tweet_embed(UserName, Name, #{
   <<"lang">> := Lang,

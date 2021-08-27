@@ -42,10 +42,8 @@ init(Req0, State) ->
         {description, [io_twitter:get_tweet_embed(UserName, Name, Tweet)]},
         {'dc:creator', [["@", UserName]]},
         {guid, [{isPermaLink, "true"}], [io_twitter:get_tweet_link(UserName, Tweet)]},
-        {pubDate, [[CreatedAt]]}
-      ]} || #{
-        <<"created_at">> := CreatedAt
-      } = Tweet <- Tweets
+        {pubDate, [io_twitter:format_tweet_date(Tweet)]}
+      ]} || Tweet <- Tweets
     ]}
   ]),
 
