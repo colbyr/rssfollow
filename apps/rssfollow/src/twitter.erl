@@ -23,9 +23,12 @@ get_user_by_username(TwitterUserName) ->
   ]),
   {ok, User}.
 
-get_tweets_by_user_id(UserId) ->
+get_tweets_by_user_id(UserId) when is_integer(UserId) ->
+  get_tweets_by_user_id(io_lib:format("~p", [UserId]));
+
+get_tweets_by_user_id(UserIdStr) ->
   {ok, #{<<"data">> := Tweets}} = fetch_json([
-    "/users/", io_lib:format("~p", [UserId]), "/tweets",
+    "/users/", UserIdStr, "/tweets",
     "?tweet.fields=created_at",
     "&max_results=10"
   ]),
