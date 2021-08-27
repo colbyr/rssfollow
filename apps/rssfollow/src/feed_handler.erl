@@ -21,17 +21,17 @@ init(Req0, State) ->
   Body = rss_channel([
     {title, [[Name, " (@", UserName, ")"]]},
     {description, [[UserDescription]]},
+    {generator, [["rssfollow"]]},
     {items, [
       {item, [
-        {title, [[Text]]},
-        {link, [twitter:get_tweet_link(UserName, TweetId)]},
-        {guid, [{isPermaLink, "true"}], [twitter:get_tweet_link(UserName, TweetId)]},
+        {title, [io_twitter:format_tweet_title(Tweet)]},
+        {link, [io_twitter:get_tweet_link(UserName, Tweet)]},
+        {description, [io_twitter:get_tweet_embed(UserName, Name, Tweet)]},
+        {guid, [{isPermaLink, "true"}], [io_twitter:get_tweet_link(UserName, Tweet)]},
         {pubDate, [[CreatedAt]]}
       ]} || #{
-        <<"id">> := TweetId,
-        <<"created_at">> := CreatedAt,
-        <<"text">> := Text
-      } <- Tweets
+        <<"created_at">> := CreatedAt
+      } = Tweet <- Tweets
     ]}
   ]),
 
