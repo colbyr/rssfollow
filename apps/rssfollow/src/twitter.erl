@@ -8,8 +8,9 @@
 
 fetch_json(Path) ->
   Url = [?TWITTER_API, Path],
+  {ok, Token} = rssfollow_app:get_app_env(twitter_bearer_token),
   Headers = [
-    {<<"Authorization">>, [<<"Bearer ">>, os:getenv("TWITTER_BEARER_TOKEN")]}
+    {<<"Authorization">>, [<<"Bearer ">>, Token]}
   ],
   {ok, _, _, ClientRef} = hackney:get(Url, Headers),
   {ok, RespBodyString} = hackney:body(ClientRef),
