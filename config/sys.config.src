@@ -1,0 +1,8 @@
+[
+  {rssfollow, [
+    {port, ${RSSFOLLOW_PORT}},
+
+    % be sure to put that value in quotes, otherwise it'll cause a syntax error
+    {twitter_bearer_token, "${RSSFOLLOW_TWITTER_TOKEN}"}
+  ]}
+].
