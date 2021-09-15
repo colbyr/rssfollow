@@ -1,6 +1,7 @@
 -module(twitter).
 -export([
   get_tweets_by_user_id/1,
+  get_tweets_by_user_id_since/2,
   get_user_by_username/1
 ]).
 
@@ -35,4 +36,22 @@ get_tweets_by_user_id(UserIdStr) ->
     "&max_results=10"
   ]),
   {ok, Tweets}.
+
+get_tweets_by_user_id_since(UserId, SinceTweetId) when is_integer(UserId) ->
+  get_tweets_by_user_id_since(io_lib:format("~p", [UserId]),SinceTweetId);
+
+get_tweets_by_user_id_since(UserIdStr, SinceTweetId) ->
+  {ok, Result} = fetch_json([
+    "/users/", UserIdStr, "/tweets",
+    "?tweet.fields=created_at,lang",
+    "&exclude=replies",
+    "&max_results=10",
+    "&since_id=", SinceTweetId
+  ]),
+  case Result of
+    #{<<"data">> := Tweets} ->
+      {ok, Tweets};
+    #{<<"meta">> := #{<<"result_count">> := 0}} ->
+      {ok, []}
+  end.
 

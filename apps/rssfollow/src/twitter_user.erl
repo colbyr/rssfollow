@@ -51,10 +51,9 @@ get_by_username(TwitterUserName) ->
     undefined ->
       {ok, User} = twitter:get_user_by_username(TwitterUserName),
       set_cached_user({TwitterUserName, User}),
-      io:format("got ~p from network~n", [TwitterUserName]),
       {ok, User};
+
     User ->
-      io:format("got ~p from cache~n", [TwitterUserName]),
       {ok, User}
   end.
 
