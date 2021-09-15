@@ -23,7 +23,7 @@ init(Req0, State) ->
      <<"description">> := UserDescription,
      <<"name">> := Name,
      <<"profile_image_url">> := ProfileImage}
-  } = twitter:get_user_by_username(UserName),
+  } = twitter_user:get_by_username(UserName),
   {ok, Tweets} = twitter:get_tweets_by_user_id(UserId),
 
   Body = rss_channel([

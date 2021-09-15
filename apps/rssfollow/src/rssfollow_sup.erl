@@ -29,7 +29,11 @@ init([]) ->
     SupFlags = #{strategy => one_for_all,
                  intensity => 0,
                  period => 1},
-    ChildSpecs = [],
+    ChildSpecs = [
+      {twitter_user_cache,
+          {twitter_user, start_link, []},
+          permanent, 5000, worker, [discovery]}
+    ],
     {ok, {SupFlags, ChildSpecs}}.
 
 %% internal functions
