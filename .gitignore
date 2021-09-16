@@ -19,3 +19,6 @@ rebar3.crashdump
 *~
 *.local
 local.config
+
+# JS Stuff
+node_modules

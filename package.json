@@ -1,0 +1,11 @@
+{
+  "name": "rssfollow",
+  "version": "0.0.1",
+  "repository": "git@github.com:colbyr/rssfollow.git",
+  "devDependencies": {
+    "husky": "^7.0.2"
+  },
+  "scripts": {
+    "prepare": "husky install"
+  }
+}
