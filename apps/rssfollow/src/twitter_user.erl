@@ -8,6 +8,9 @@
   start_link/0
 ]).
 
+% 1 day (in microseconds)
+-define(REFRESH, 86_400_000_000).
+
 get_cache_pid() ->
   [{cache_pid, CachePid}] = ets:lookup(twitter_user_meta, cache_pid),
   CachePid.
@@ -26,7 +29,8 @@ init(_Args) ->
   {ok, {}}.
 
 handle_cast({set_cache, {TwitterUserName, User}}, State) ->
-  ets:insert(twitter_user_by_username, {TwitterUserName,  User}),
+  RefreshedAt = erlang:timestamp(),
+  ets:insert(twitter_user_by_username, {TwitterUserName, RefreshedAt, User}),
   {noreply, State};
 handle_cast(Msg, State) ->
   io:format("unknown msg: ~p~n", [Msg]),
@@ -41,19 +45,23 @@ set_cached_user(Entry) ->
 
 get_cached_user(TwitterUserName) ->
   case ets:lookup(twitter_user_by_username, TwitterUserName) of
-    [] -> undefined;
-    [{_Name, User}] -> User
+    [] -> {stale};
+    [{_Name, LastRefresh, User}] ->
+      case timer:now_diff(erlang:timestamp(), LastRefresh) >= ?REFRESH of
+        true -> {stale, User};
+        false -> {ok, User}
+      end
   end.
 
 
 get_by_username(TwitterUserName) ->
   case get_cached_user(TwitterUserName) of
-    undefined ->
+    {stale} ->
       {ok, User} = twitter:get_user_by_username(TwitterUserName),
       set_cached_user({TwitterUserName, User}),
       {ok, User};
 
-    User ->
+    {ok, User} ->
       {ok, User}
   end.
 
