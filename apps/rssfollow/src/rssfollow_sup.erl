@@ -26,16 +26,16 @@ start_link() ->
 %%                  type => worker(),       % optional
 %%                  modules => modules()}   % optional
 init([]) ->
-    SupFlags = #{strategy => one_for_all,
-                 intensity => 0,
-                 period => 1},
+    SupFlags = #{
+        strategy => one_for_all,
+        intensity => 0,
+        period => 1
+    },
     ChildSpecs = [
-      {twitter_user_cache,
-          {twitter_user, start_link, []},
-          permanent, 5000, worker, [twitter_user]},
-      {twitter_tweet_cache,
-          {twitter_tweets, start_link, []},
-          permanent, 5000, worker, [twitter_tweets]}
+        {twitter_user_cache, {twitter_user, start_link, []}, permanent, 5000,
+            worker, [twitter_user]},
+        {twitter_tweet_cache, {twitter_tweets, start_link, []}, permanent, 5000,
+            worker, [twitter_tweets]}
     ],
     {ok, {SupFlags, ChildSpecs}}.
 
