@@ -18,7 +18,7 @@ start(_StartType, _StartArgs) ->
     io:format("rssfollow started on port ~p~n", [Port]),
     Dispatch = cowboy_router:compile([
         {'_', [
-            {"/", index_handler, []},
+            {"/", cowboy_static, {priv_file, rssfollow, "static/index.html"}},
             {"/favicon.ico", cowboy_static,
                 {priv_file, rssfollow, "static/assets/icon.png"}},
             {"/:twitter_user/tweets.rss", feed_handler, []}
