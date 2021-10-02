@@ -5,60 +5,65 @@
     <title>Tweed | RSS feeds for Twitter</title>
     <script defer data-domain="tweed.systems" src="https://plausible.io/js/plausible.js"></script>
     <style type="text/css">
-      body {
+      * {
         box-sizing: border-box;
+      }
+      body {
+        display: flex;
         padding: 2rem;
         margin: 0;
         min-height: 100vh;
         min-width: 100vw;
+        background:
+          linear-gradient(to bottom right, #00000088, transparent) center/100% no-repeat,
+          url("/assets/tweed-orange.jpg") center/300px repeat;
       }
       body.blue {
         background:
-          linear-gradient(to bottom right, #FFFFFFDD, transparent) center/100% no-repeat,
+          linear-gradient(to bottom right, #00000088, transparent) center/100% no-repeat,
           url("/assets/tweed-blue.jpg") center/300px repeat;
       }
       body.green {
         background:
-          linear-gradient(to bottom right, #FFFFFFDD, transparent) center/100% no-repeat,
+          linear-gradient(to bottom right, #00000088, transparent) center/100% no-repeat,
           url("/assets/tweed-green.jpg") center/300px repeat;
       }
       body.orange {
         background:
-          linear-gradient(to bottom right, #FFFFFFDD, transparent) center/100% no-repeat,
+          linear-gradient(to bottom right, #00000088, transparent) center/100% no-repeat,
           url("/assets/tweed-orange.jpg") center/300px repeat;
       }
       body.pink {
         background:
-          linear-gradient(to bottom right, #FFFFFFDD, transparent) center/100% no-repeat,
+          linear-gradient(to bottom right, #00000088, transparent) center/100% no-repeat,
           url("/assets/tweed-pink.jpg") center/300px repeat;
       }
       body.purple {
         background:
-          linear-gradient(to bottom right, #FFFFFFDD, transparent) center/100% no-repeat,
-          linear-gradient(#FFFFFFDD, transparent) center/100% no-repeat,
+          linear-gradient(to bottom right, #00000088, transparent) center/100% no-repeat,
           url("/assets/tweed-purple.jpg") center/300px repeat;
       }
       body.yellow {
         background:
-          linear-gradient(to bottom right, #FFFFFFDD, transparent) center/100% no-repeat,
+          linear-gradient(to bottom right, #00000088, transparent) center/100% no-repeat,
           url("/assets/tweed-yellow.jpg") center/300px repeat;
       }
       h1 {
-        margin: 0.5rem 0 0.5rem 0;
+        margin: 0 0 0.5rem 0;
       }
       header {
         display: flex;
-        margin-bottom: 2rem;
       }
       img {
-        margin-right: 1rem;
+        border: 1px dashed #000;
+        margin-right: 2rem;
       }
-      form {
+      .box {
         background: white;
         border: 1px dashed #000;
-        display: inline-block;
-        margin: 1rem 0;
+        margin: 0 0 2rem 0;
         padding: 1rem 1.5rem;
+        width: 100%;
       }
       label {
         display: block;
@@ -99,29 +104,53 @@
       p {
         margin: 0;
       }
+      .container {
+        display: flex;
+        flex-direction: column;
+        max-width: 680px;
+        flex: 1;
+      }
+      .container > .box:last-child {
+        margin-bottom: 0;
+      }
+      footer {
+        align-self: flex-end;
+      }
+      .space {
+        display: flex;
+        flex: 1;
+      }
     </style>
   </head>
-  <body class="blue">
+  <body>
     <script>
       document.body.classList.add(['blue', 'green', 'orange', 'pink', 'purple', 'yellow'][Math.floor(Math.random() * 6)]);
     </script>
-    <header>
-      <img alt="Tweed logo" title="Tweed: RSS feeds for Twitter" height="85" width="85" src="/assets/icon.png" />
-      <div>
-        <h1>Tweed</h1>
-        <p>Subscribe to an RSS feed for a public twitter account.</p>
-      </div>
-    </header>
-    <form id="user-form" method="GET">
-      <label>
-        <strong>Twitter username</strong>
-        <div class="username-input">
-          <input autofocus name="username" pattern="^(\w){1,15}$" placeholder="colbyrabideau" required />
+    <div class="container">
+      <header>
+        <img alt="Tweed logo" title="Tweed: RSS feeds for Twitter" height="100" width="100" src="/assets/icon.png" />
+        <div class="box">
+          <h1>Tweed</h1>
+          <p>Subscribe to an RSS feed for a public twitter account.</p>
         </div>
-      </label>
+      </header>
+      <main>
+        <form class="box" id="user-form" method="GET">
+          <label>
+            <strong>Twitter username</strong>
+            <div class="username-input">
+              <input autofocus name="username" pattern="^(\w){1,15}$" placeholder="colbyrabideau" required />
+            </div>
+          </label>
 
-      <button type="submit">Get RSS Feed</button>
-    </form>
+          <button type="submit">Get RSS Feed</button>
+        </form>
+      </main>
+      <div class="space"></div>
+      <footer class="box" style="align-self: flex-end">
+        Made for fun by <a href="https://colbyr.com">Colby Rabideau</a>
+      </footer>
+    </div>
 
     <script type="text/javascript">
       (function() {
