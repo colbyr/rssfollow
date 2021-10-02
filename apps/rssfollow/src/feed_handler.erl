@@ -34,7 +34,7 @@ init(Req0, State) ->
     Body = rss_channel([
         {title, [[Name, " (@", UserName, ")"]]},
         {description, [[UserDescription]]},
-        {generator, [["rssfollow"]]},
+        {generator, [["https://tweed.systems"]]},
         {link, [[io_twitter:get_profile_link(UserName)]]},
         {image, [
             {url, [[ProfileImage]]},
