@@ -2,12 +2,12 @@
 <html>
   <head>
     <meta charSet="utf-8"/>
-    <title>RSS Follow</title>
+    <title>Tweed | RSS feeds for Twitter</title>
     <description>
   </head>
   <body>
-    <h1>RSS Follow</h1>
-    <p>RSS feeds for public twitter accounts.</p>
+    <h1>Tweed</h1>
+    <p>Subscribe to an RSS feed for a public twitter account.</p>
     <form id="user-form" method="GET">
       <label>
         <strong>Twitter username</strong>
@@ -25,7 +25,7 @@
         formEl.addEventListener('submit', function (evt) {
           evt.preventDefault();
           const username = formEl.elements.username.value;
-          window.location = "https://rssfollow.colbyr.com/" + username + "/tweets.rss";
+          window.location = "/" + username + "/tweets.rss";
         });
       }());
     </script>
