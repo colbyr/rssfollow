@@ -19,6 +19,8 @@ start(_StartType, _StartArgs) ->
     Dispatch = cowboy_router:compile([
         {'_', [
             {"/", cowboy_static, {priv_file, rssfollow, "static/index.html"}},
+            {"/assets/[...]", cowboy_static,
+                {priv_dir, rssfollow, "static/assets"}},
             {"/favicon.ico", cowboy_static,
                 {priv_file, rssfollow, "static/assets/icon.png"}},
             {"/:twitter_user/tweets.rss", feed_handler, []}
