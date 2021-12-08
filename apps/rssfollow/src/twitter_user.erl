@@ -56,7 +56,7 @@ get_cached_user(TwitterUserName) ->
 
 get_by_username(TwitterUserName) ->
     case get_cached_user(TwitterUserName) of
-        {stale} ->
+        {stale, _} ->
             {ok, User} = twitter:get_user_by_username(TwitterUserName),
             set_cached_user({TwitterUserName, User}),
             {ok, User};
