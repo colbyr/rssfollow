@@ -46,7 +46,7 @@ set_cached_user(Entry) ->
 get_cached_user(TwitterUserName) ->
     case ets:lookup(twitter_user_by_username, TwitterUserName) of
         [] ->
-            {stale};
+            {stale, nil};
         [{_Name, LastRefresh, User}] ->
             case timer:now_diff(erlang:timestamp(), LastRefresh) >= ?REFRESH of
                 true -> {stale, User};
