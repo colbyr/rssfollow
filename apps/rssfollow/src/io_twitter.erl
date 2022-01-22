@@ -48,5 +48,4 @@ get_tweet_link(UserName, #{<<"id">> := TweetId}) ->
     [get_profile_link(UserName), "/status/", TweetId].
 
 format_tweet_title(#{<<"text">> := Text}) ->
-    NormalWhitespace = string:chomp(Text),
-    [string:slice(NormalWhitespace, 0, 100)].
+    [Text].
